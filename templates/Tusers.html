@@ -18,52 +18,7 @@
   <link rel="stylesheet" href="../static/dashboard/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../static/dashboard/images/favicon.png" />
-  <script>
-      function initMap() {
-        const myLatlng = { lat: 10.8505159, lng: 76.2710833 };
-        const map = new google.maps.Map(document.getElementById("sample"), {
-          zoom: 7,
-          center: myLatlng,
-        });
-        // Create the initial InfoWindow.
-        let infoWindow = new google.maps.InfoWindow({
-          content: "Click here to select",
-          position: myLatlng,
-        });
-        infoWindow.open(map);
-        // Configure the click listener.
-        map.addListener("click", (mapsMouseEvent) => {
-          // Close the current InfoWindow.
-          infoWindow.close();
-          // Create a new InfoWindow.
-          infoWindow = new google.maps.InfoWindow({
-            position: mapsMouseEvent.latLng,
-			
-          });
-		  var myJSON = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2);
-		  console.log(myJSON);
-		  data = JSON.parse(myJSON);
-		  //document.getElementById("demo").innerHTML = data.lng;
-		  var longitude = function() {
-			return data.lng;    
-		  };
-		  var latitude = function() {
-			return data.lat;    
-		  };
-		  var input = document.getElementById("latitude");
-		  input.value = latitude();
-		  var input = document.getElementById("longitude");
-		  input.value = longitude();
-		  console.log(latitude());
-          infoWindow.setContent(
-            JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
-          );
-          infoWindow.open(map);
-        });
-		
-      }
-	  
-    </script>
+  
   
 </head>
 <body>
@@ -127,16 +82,31 @@
         <div class="content-wrapper">
 			
 			
-			<div id = "sample" style = "width:780px; height:400px;"></div>
-			<form action="/dashboard" method="POST" class="dashboard-form" id="dashboard-form">
-			<div class="msg1">{{ msg1 }}</div><br>
-			<label for="rads">Enter the radius (in m) of the geofenced region:</label>
-			<input type="number" id="rads" name="rads"><br>
-			<label for="placename">PlaceName</label>
-			<input type="text" id="place" name="place"><br>
-			<input id="latitude" type="hidden" name="latitude" />
-			<input id="longitude" type="hidden" name="longitude" />
-            <input type="submit" name="Geofence" id="Geofence" class="form-submit" value="Geofence"/>
+			
+			
+			<table> 
+				<thead> 
+				<tr> 
+					<th>Name</th> 
+					<th> Email</th> 
+					<th> Location</th>
+				</tr> 
+				</thead> 
+				<tbody> 
+					{% for row in value %}  
+						<tr> 
+							<td>{{row[1]}}</td> 
+							<td> {{row[2]}}</td> 
+							<td> {{row[6]}}</td>
+						</tr> 
+					{% endfor %} 
+				</tbody> 
+			</table><br><br><br>
+			<h4><b>Alert them!</b></h4>
+			<form action="/Tusers" method="POST" class="Tusers-form" id="Tusers-form">
+			<label for="rads">Enter the Email:</label>
+			<input type="text" id="email" name="email"><br>
+			<input type="submit" name="submit" id="submit" class="form-submit" value="Send Mail"/>
 			<p id="demo"></p><br>
 
 			
